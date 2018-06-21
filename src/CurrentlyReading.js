@@ -1,8 +1,8 @@
 import React,{ Component } from 'react'
 
 class CurrentlyReading extends Component{
-    handleOption(value,id,index){
-        this.props.handleOption(value,id,index);
+    handleOption(value,book,index){
+        this.props.handleOption(value,book,index);
     }
     render(){
         return (
@@ -25,10 +25,9 @@ class CurrentlyReading extends Component{
                               backgroundImage: `url(${
                                 book.imageLinks.smallThumbnail
                               })`
-                            }}
-                          />
+                            }}/>
                           <div className="book-shelf-changer">
-                            <select value={book.shelf} onChange={(e)=>this.handleOption(e.target.value,book.id,index)}>
+                            <select value={book.shelf} onChange={(e)=>this.handleOption(e.target.value,book,index)}>
                               <option value="move" disabled>
                                 Move to...
                               </option>

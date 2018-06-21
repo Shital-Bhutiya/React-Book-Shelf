@@ -10,46 +10,38 @@ import { Link } from "react-router-dom";
 
 class BooksApp extends React.Component {
   state = {
-    books: [],
-    /**
-     * TODO: Instead of using this state variable to keep track of which page
-     * we're on, use the URL in the browser's address bar. This will ensure that
-     * users can use the browser's back and forward buttons to navigate between
-     * pages, as well as provide a good URL they can bookmark and share.
-     */
-    showSearchPage: false
+    books: []
   };
 
-  handleOption = (value, id, index) => {
-    let newBooks = this.state.books;
-
-    switch (value) {
-      case "currentlyReading":
-        newBooks[index].shelf = "currentlyReading";
-        break;
-
-      case "wantToRead":
-        newBooks[index].shelf = "wantToRead";
-        break;
-
-      case "read":
-        newBooks[index].shelf = "read";
-        break;
-
-      case "none":
-        newBooks.splice(index, 1);
-        break;
+  handleOption = (value, book, index) => {
+    let newBooks = [];
+    if (value !== "none")
+      BooksAPI.update(book, value).then(books => {
+        BooksAPI.getAll().then(json => {
+          json.forEach(book => {
+            newBooks.push(book);
+          });
+          this.setState({ books: newBooks });
+        });
+      });
+    else {
+      newBooks = this.state.books;
+      newBooks.splice(index, 1);
+      this.setState({ books: newBooks });
     }
+  };
 
+  addMoreBooks = newBooks => {
     this.setState({ books: newBooks });
   };
+
   componentDidMount() {
     BooksAPI.getAll().then(json => {
       let newBooks = [];
       json.forEach(book => {
         newBooks.push(book);
       });
-      console.log(newBooks);
+
       this.setState({ books: newBooks });
     });
   }
@@ -89,10 +81,15 @@ class BooksApp extends React.Component {
           }}
         />
         <Route
-        exact
+          exact
           path="/Search"
           render={() => {
-            return <Search/>;
+            return (
+              <Search
+                addMoreBooks={this.addMoreBooks}
+                books={this.state.books}
+              />
+            );
           }}
         />
       </div>
