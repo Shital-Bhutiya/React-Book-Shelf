@@ -41,7 +41,6 @@ class BooksApp extends React.Component {
       json.forEach(book => {
         newBooks.push(book);
       });
-
       this.setState({ books: newBooks });
     });
   }
@@ -58,22 +57,20 @@ class BooksApp extends React.Component {
                   <h1>MyReads</h1>
                 </div>
                 <div className="list-books-content">
-                  <div>
                     <Read
-                      Books={this.state.books}
+                      books={this.state.books}
                       handleOption={this.handleOption}
                     />
                     <CurrentlyReading
-                      Books={this.state.books}
+                      books={this.state.books}
                       handleOption={this.handleOption}
                     />
                     <WantToRead
-                      Books={this.state.books}
+                      books={this.state.books}
                       handleOption={this.handleOption}
                     />
                     <div className="open-search">
                       <Link to="/Search">Add a book</Link>
-                    </div>
                   </div>
                 </div>
               </div>

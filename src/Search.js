@@ -6,53 +6,71 @@ class Search extends Component {
     searchBook: [],
     query: ""
   };
+
   handleInput = e => {
     const value = e.target.value;
     if (value) this.fetchBooks(value);
     else this.setState({ query: "", searchBook: [] });
   };
+
   fetchBooks = value => {
     BooksAPI.search(value).then(json => {
       if (Array.isArray(json)) {
         json.forEach(book => {
-          var result = this.props.books.find(function(obj) {
+          const resultBook = this.props.books.find(function(obj) {
             return obj.id === book.id;
           });
-          if (result) book.shelf = result.shelf;
-          else {
-            const s = book.imageLinks ? ( book.imageLinks.smallThumbnail ? book.imageLinks.smallThumbnail : "http://www.theinvisiblegorilla.com/images/book_cover_coming.jpg" ) : "http://www.theinvisiblegorilla.com/images/book_cover_coming.jpg";
-            book.imageLinks={};
-            book.imageLinks.smallThumbnail = s;
+          if (resultBook) {
+            book.shelf = resultBook.shelf;
+          } else {
+            const image = book.imageLinks
+              ? book.imageLinks.smallThumbnail
+                ? book.imageLinks.smallThumbnail
+                : "http://www.theinvisiblegorilla.com/images/book_cover_coming.jpg"
+              : "http://www.theinvisiblegorilla.com/images/book_cover_coming.jpg";
+            book.imageLinks = {};
+            book.imageLinks.smallThumbnail = image;
             book.shelf = "none";
           }
         });
+        this.setState({ query: value, searchBook: json });
+      } else {
+        this.setState({ query: value, searchBook: [] });
       }
-      this.setState({ query: value, searchBook: json });
     });
   };
 
   handleOption = (book, value) => {
-    let newBooks = this.props.books;
-    var result = newBooks.find(function(obj, index) {
+    // update the searched array
+    let newsearchBook = this.state.searchBook;
+    const resultBookIndex = newsearchBook.findIndex(function(obj, index) {
       return obj.id === book.id;
     });
-    if (result) {
-      BooksAPI.update(result,value).then(books=>{
-        BooksAPI.getAll().then(json => {
-         newBooks=json;
-         this.props.addMoreBooks(newBooks);
-        })
-      })
-    } else {
-      BooksAPI.update(book,value).then(books=>{
-        BooksAPI.getAll().then(json => {
-         newBooks=json;
-         this.props.addMoreBooks(newBooks);
-        })
-      })
-    }
-
+    newsearchBook[resultBookIndex].shelf = value;
+    this.setState({ searchBook: newsearchBook });
     
+    let newBooks = this.props.books;
+    const resultBook = newBooks.find(function(obj, index) {
+      return obj.id === book.id;
+    });
+    
+    if (resultBook) {
+      BooksAPI.update(resultBook, value).then(books => {
+        BooksAPI.getAll().then(json => {
+          newBooks = json;
+
+          this.props.addMoreBooks(newBooks);
+        });
+      });
+    } else {
+        BooksAPI.update(book, value).then(books => {
+        BooksAPI.getAll().then(json => {
+          newBooks = json;
+
+          this.props.addMoreBooks(newBooks);
+        });
+      });
+    }
   };
 
   render() {
@@ -70,49 +88,48 @@ class Search extends Component {
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-            {this.state.searchBook.length &&
-              this.state.searchBook.map((book, index) => {
-                return (
-                  <div key={book.id}>
-                    <li>
-                      <div className="book">
-                        <div className="book-top">
-                          <div
-                            className="book-cover"
-                            style={{
-                              width: 128,
-                              height: 193,
-                              backgroundImage: `url(${
-                                book.imageLinks.smallThumbnail
-                              })`
-                            }}
-                          />
-                          <div className="book-shelf-changer">
-                            <select
-                              value={book.shelf}
-                              onChange={e =>
-                                this.handleOption(book, e.target.value)
-                              }
-                            >
-                              <option value="move" disabled>
-                                Move to...
-                              </option>
-                              <option value="currentlyReading">
-                                Currently Reading
-                              </option>
-                              <option value="wantToRead">Want to Read</option>
-                              <option value="read">Read</option>
-                              <option value="none">None</option>
-                            </select>
-                          </div>
+            {this.state.searchBook.map((book, index) => {
+              return (
+                <div key={book.id}>
+                  <li>
+                    <div className="book">
+                      <div className="book-top">
+                        <div
+                          className="book-cover"
+                          style={{
+                            width: 128,
+                            height: 193,
+                            backgroundImage: `url(${
+                              book.imageLinks.smallThumbnail
+                            })`
+                          }}
+                        />
+                        <div className="book-shelf-changer">
+                          <select
+                            value={book.shelf}
+                            onChange={e =>
+                              this.handleOption(book, e.target.value)
+                            }
+                          >
+                            <option value="move" disabled>
+                              Move to...
+                            </option>
+                            <option value="currentlyReading">
+                              Currently Reading
+                            </option>
+                            <option value="wantToRead">Want to Read</option>
+                            <option value="read">Read</option>
+                            <option value="none">None</option>
+                          </select>
                         </div>
-                        <div className="book-title">{book.title}</div>
-                        <div className="book-authors">{book.authors}</div>
                       </div>
-                    </li>
-                  </div>
-                );
-              })}
+                      <div className="book-title">{book.title}</div>
+                      <div className="book-authors">{book.authors}</div>
+                    </div>
+                  </li>
+                </div>
+              );
+            })}
           </ol>
         </div>
       </div>

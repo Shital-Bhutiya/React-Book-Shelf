@@ -10,11 +10,11 @@ class Read extends Component {
        <h2 className="bookshelf-title">Read</h2>
         <div className="bookshelf-books">
           <ol className="books-grid">
-            {this.props.Books.map((book,index) => {
+            {this.props.books.map((book,index) => {
               return (
                 <div key={book.id}>
                   {book.shelf === "read" && (
-                    <li >
+                    <li>
                       <div className="book">
                         <div className="book-top">
                           <div

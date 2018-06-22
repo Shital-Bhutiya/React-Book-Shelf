@@ -1,20 +1,20 @@
-import React,{ Component } from 'react'
+import React, { Component } from "react";
 
-class CurrentlyReading extends Component{
-    handleOption(value,book,index){
-        this.props.handleOption(value,book,index);
-    }
-    render(){
-        return (
+class CurrentlyReading extends Component {
+  handleOption(value, book, index) {
+    this.props.handleOption(value, book, index);
+  }
+  render() {
+    return (
       <div className="bookshelf">
         <h2 className="bookshelf-title">Currently Reading</h2>
         <div className="bookshelf-books">
           <ol className="books-grid">
-            {this.props.Books.map((book,index) => {
+            {this.props.books.map((book, index) => {
               return (
                 <div key={book.id}>
                   {book.shelf === "currentlyReading" && (
-                    <li >
+                    <li>
                       <div className="book">
                         <div className="book-top">
                           <div
@@ -25,9 +25,15 @@ class CurrentlyReading extends Component{
                               backgroundImage: `url(${
                                 book.imageLinks.smallThumbnail
                               })`
-                            }}/>
+                            }}
+                          />
                           <div className="book-shelf-changer">
-                            <select value={book.shelf} onChange={(e)=>this.handleOption(e.target.value,book,index)}>
+                            <select
+                              value={book.shelf}
+                              onChange={e =>
+                                this.handleOption(e.target.value, book, index)
+                              }
+                            >
                               <option value="move" disabled>
                                 Move to...
                               </option>
@@ -52,7 +58,7 @@ class CurrentlyReading extends Component{
         </div>
       </div>
     );
-    }
+  }
 }
 
 export default CurrentlyReading;
