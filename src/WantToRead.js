@@ -31,8 +31,7 @@ class WantToRead extends Component {
                               value={book.shelf}
                               onChange={e =>
                                 this.handleOption(e.target.value, book, index)
-                              }
-                            >
+                              }>
                               <option value="move" disabled>
                                 Move to...
                               </option>

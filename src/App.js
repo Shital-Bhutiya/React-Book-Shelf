@@ -57,20 +57,20 @@ class BooksApp extends React.Component {
                   <h1>MyReads</h1>
                 </div>
                 <div className="list-books-content">
-                    <Read
-                      books={this.state.books}
-                      handleOption={this.handleOption}
-                    />
-                    <CurrentlyReading
-                      books={this.state.books}
-                      handleOption={this.handleOption}
-                    />
-                    <WantToRead
-                      books={this.state.books}
-                      handleOption={this.handleOption}
-                    />
-                    <div className="open-search">
-                      <Link to="/Search">Add a book</Link>
+                  <Read
+                    books={this.state.books}
+                    handleOption={this.handleOption}
+                  />
+                  <CurrentlyReading
+                    books={this.state.books}
+                    handleOption={this.handleOption}
+                  />
+                  <WantToRead
+                    books={this.state.books}
+                    handleOption={this.handleOption}
+                  />
+                  <div className="open-search">
+                    <Link to="/Search">Add a book</Link>
                   </div>
                 </div>
               </div>

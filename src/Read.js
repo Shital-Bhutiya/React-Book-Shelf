@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 
 class Read extends Component {
-  handleOption(value,book,index){
-    this.props.handleOption(value,book,index);
+  handleOption(value, book, index) {
+    this.props.handleOption(value, book, index);
   }
   render() {
     return (
       <div className="bookshelf">
-       <h2 className="bookshelf-title">Read</h2>
+        <h2 className="bookshelf-title">Read</h2>
         <div className="bookshelf-books">
           <ol className="books-grid">
-            {this.props.books.map((book,index) => {
+            {this.props.books.map((book, index) => {
               return (
                 <div key={book.id}>
                   {book.shelf === "read" && (
@@ -25,10 +25,15 @@ class Read extends Component {
                               backgroundImage: `url(${
                                 book.imageLinks.smallThumbnail
                               })`
-                            }}/>
+                            }}
+                          />
                           <div className="book-shelf-changer">
-                            <select value={book.shelf} onChange={(e)=>this.handleOption(e.target.value,book,index)}>
-                              <option value="move"  disabled>
+                            <select
+                              value={book.shelf}
+                              onChange={e =>
+                                this.handleOption(e.target.value, book, index)
+                              }>
+                              <option value="move" disabled>
                                 Move to...
                               </option>
                               <option value="currentlyReading">
@@ -49,7 +54,7 @@ class Read extends Component {
               );
             })}
           </ol>
-        </div> 
+        </div>
       </div>
     );
   }

@@ -14,7 +14,7 @@ There is another feature where the user can add more books to their app. For tha
 
    ``Want to Read :- Where user can move books that they want to read in future``
 
-   ``None :- if they select this option then they are deleting this book from their book list ``
+   ``None :- If user select this option on main page then they are deleting this book from their book list ``
 
    ``Search :- This feature will let allow a user to serch a book and let them allow to add books in their list``
     
@@ -54,3 +54,5 @@ To get started right away, run this command in yor:
 
 
 _**Move your books around with it 😊**_
+
+**Note: you can only search books which are listed in this [link](./SEARCH_TERMS.md)**

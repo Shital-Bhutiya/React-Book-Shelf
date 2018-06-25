@@ -48,12 +48,12 @@ class Search extends Component {
     });
     newsearchBook[resultBookIndex].shelf = value;
     this.setState({ searchBook: newsearchBook });
-    
+
     let newBooks = this.props.books;
     const resultBook = newBooks.find(function(obj, index) {
       return obj.id === book.id;
     });
-    
+
     if (resultBook) {
       BooksAPI.update(resultBook, value).then(books => {
         BooksAPI.getAll().then(json => {
@@ -63,7 +63,7 @@ class Search extends Component {
         });
       });
     } else {
-        BooksAPI.update(book, value).then(books => {
+      BooksAPI.update(book, value).then(books => {
         BooksAPI.getAll().then(json => {
           newBooks = json;
 
@@ -109,8 +109,7 @@ class Search extends Component {
                             value={book.shelf}
                             onChange={e =>
                               this.handleOption(book, e.target.value)
-                            }
-                          >
+                            }>
                             <option value="move" disabled>
                               Move to...
                             </option>
